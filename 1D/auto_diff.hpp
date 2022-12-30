@@ -30,5 +30,38 @@ class AutoDiff
         }
 };
 
+template <typename T>
+class ForwardDiff
+{
+    T value;
+    T diff;
+
+    public:
+        ForwardDiff<T>(): value(0), diff(1) {};
+        ForwardDiff<T>(T value, T diff): value(value), diff(diff) {};
+        ForwardDiff<T>(ForwardDiff const& a) = default;
+        ForwardDiff<T> operator+(ForwardDiff<T> const& a)
+        {
+            ForwardDiff<T> v;
+            v.value = this->value + a.value;
+            v.diff = this->diff + a.diff;
+            return v;
+        }
+        ForwardDiff<T> operator*(ForwardDiff<T> const &a)
+        {
+            ForwardDiff<T> v;
+            v.value = this->value * a.value;
+            v.diff = this->diff * a.value + this->value * a.diff;
+            return v;
+        }
+        friend std::ostream &operator<<(std::ostream &os, ForwardDiff<T> v) 
+        {
+                os << v.value;
+                os << " ";
+                os << v.diff;
+                return os;
+        }
+};
+
 
 #endif // AUTO_DIFF_H

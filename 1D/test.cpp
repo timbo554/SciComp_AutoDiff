@@ -5,7 +5,9 @@ using namespace std;
 
 int main()
 {
-    AutoDiff<int> a(4);
-    AutoDiff<int> b(3);
-    AutoDiff<int> v = a + b;
+
+    ForwardDiff<double> a(2.0, 1);
+    ForwardDiff<double> b(5.0, 1);
+
+    cout << a * a << endl;
 }
