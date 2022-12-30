@@ -10,25 +10,25 @@ class AutoDiff
     T value;
     // ComputationalGraph<T> c_graph;
     public:
-        explicit AutoDiff(T value): value(value) {}
-        AutoDiff() {}
-        friend AutoDiff operator+(AutoDiff a, AutoDiff b)
+        explicit AutoDiff(T value): value(value) {};
+        AutoDiff<T>(): value(0) {};
+        AutoDiff<T>(AutoDiff<T> const &) = default;
+        AutoDiff<T>& operator=(AutoDiff<T> const& old_auto_diff) = default;
+
+
+        AutoDiff<T> operator+(AutoDiff<T> const& a)
         {
             AutoDiff<T> v;
-            v.value = a.value + b.value;
+            v.value = this->value + a.value;
             return v;
         }
 
-        friend std::ostream &operator<<(std::ostream &os, AutoDiff v) 
+        friend std::ostream &operator<<(std::ostream &os, AutoDiff<T> v) 
         {
             os << v.value;
             return os;
         }
 };
 
-template <typename T>
-class ForwardDiff: AutoDiff<T>
-{
-    T 
-};
+
 #endif // AUTO_DIFF_H

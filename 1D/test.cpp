@@ -7,5 +7,5 @@ int main()
 {
     AutoDiff<int> a(4);
     AutoDiff<int> b(3);
-    cout << a + b << endl;
+    AutoDiff<int> v = a + b;
 }
