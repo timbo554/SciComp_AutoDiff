@@ -138,30 +138,77 @@ struct Diff
     T value;
     T diff;
     int index;
+
+    Diff(T value, T diff, int index): value(value), diff(diff), index(index) {};
 };
 
 template <typename T>
 class VecDiff
 {
-    std::vector<Diff<T>> vars;
+    T value;
+    std::vector<T> diffs;
+    std::vector<int> indices;
 
     public: 
-        VecDiff(std::vector<T> values, std::vector<T> diff, std::vector<int> index)
+        explicit VecDiff(T value, std::vector<T> diffs)
         {
-            for (auto i = 0; i < values.length(); i++)
+            value = value;
+            for (auto i = 0; i < diffs.length(); i++)
             {
-                Diff<T> tmp(values[i], diff[i], index[i]);
-                vars.push(tmp);
+                diffs.push_back(diffs[i]);
+                indices.push_back(i);
             }
         }
+        explicit VecDiff(T value): value(value) {};
+        explicit VecDiff() = default;
+        explicit VecDiff(VecDiff const &) = default;
+        
+        
+        friend std::ostream &operator<<(std::ostream &os, VecDiff<T> v) 
+        {
+            os << "Values: ";
+            for (auto value: v.values)
+            {
+                os << v << " ";
+            }
+            os << std::endl;
+            
+            os << "Diffs";
+            for (auto diff: v.diffs)
+            {
+                os << diff << " ";
+            }
+            os << std::endl;
+            
+            return os;
+        }
 
+        set_diff_and_index(T diff_value, int index)
+        {
+            diffs.push_back(diff_value);
+            indices.push_back(index);
+        }
 };
 
 template <typename T>
-VecDiff<T> operator+(Diff<T> b)
-{
-    VecDiff<T> v;
-    return v;
-}
+VecDiff<T> operator+(Diff<T> a, Diff<T> b)
+    {
+        VecDiff<T> v(a.value + b.value);
+
+        if (a.index == b.index)
+        {
+            v.diffs.push_back(a.diff + b.diff);
+            v.indices.push_back(a.index);
+        }
+        else
+        {
+            v.diffs.push_back(a.diff);
+            v.indices.push_back(a.index);
+
+            v.diffs.push_back(b.diff);
+            v.indices.push_back(b.index);
+        }
+        return v;
+    }
 
 #endif // AUTO_DIFF_H

@@ -34,6 +34,10 @@ int main()
 
     cout << F(3.0) << endl;
     
-    
+    Diff<double> diff1(2.0, 1.0, 0);
+    Diff<double> diff2(3.0, 7.0, 1);
+
+    diff1 + diff2;
+
 
 }
