@@ -5,10 +5,11 @@
 using namespace std;
 
 
-ForwardDiff<double> F(double x)
+ForwardDiff<double> F(vector<double> const& vars, vector<double> const & diffs)
 {
-    ForwardDiff<double> result(x, 1);
-    return exp(sin(result) + cos(result) / log(result));
+    vector<ForwardDiff<double>> fd_vars = create_fd_vars(vars, diffs);
+
+    return exp(fd_vars[0] * fd_vars[1]) + fd_vars[0];
 }
 int main()
 {
@@ -32,12 +33,11 @@ int main()
     ForwardDiff<double> e(2, 1);
     cout << exp(sin(e) + cos(c) / log(c)) << endl;
 
-    cout << F(3.0) << endl;
-    
-    Diff<double> diff1(2.0, 1.0, 0);
-    Diff<double> diff2(3.0, 7.0, 1);
-
-    diff1 + diff2;
+    vector<double> vars = {1.0, 3.0};
+    vector<double> diffs1 = {1.0, 0.0};
+    vector<double> diffs2 = {0.0, 1.0};
+    cout << F(vars, diffs1) << endl;
+    cout << F(vars, diffs2) << endl;
 
 
 }
