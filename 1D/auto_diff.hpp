@@ -35,8 +35,8 @@ class AutoDiff
 template <typename T>
 class ForwardDiff
 {
-    T value;
-    T diff;
+    T value; // f(x)
+    T diff; // f'(x)
 
     public:
         ForwardDiff<T>(): value(0), diff(0) {};
@@ -58,7 +58,7 @@ class ForwardDiff
             v.diff = this->diff - a.diff;
             return v;
         }
-
+        
         ForwardDiff<T> operator*(ForwardDiff<T> const &a)
         {
             ForwardDiff<T> v;
@@ -77,12 +77,11 @@ class ForwardDiff
 
         friend std::ostream &operator<<(std::ostream &os, ForwardDiff<T> v) 
         {
-                os << v.value;
-                os << " ";
-                os << v.diff;
+                os << "F(x) = " << v.value << std::endl;
+                os << "F'(x) * x' = " << v.diff << std::endl;
                 return os;
         }
-
+    	
         friend ForwardDiff<T> sin(ForwardDiff<T> const a)
         {
             ForwardDiff<T> v;
@@ -147,6 +146,5 @@ std::vector<ForwardDiff<T>> create_fd_vars(std::vector<T> const &vars,
     }
     return fd_vars;
 }
-
 
 #endif // AUTO_DIFF_H

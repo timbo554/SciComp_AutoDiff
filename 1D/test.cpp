@@ -5,15 +5,19 @@
 using namespace std;
 
 
-ForwardDiff<double> F(vector<double> const& vars, vector<double> const & diffs)
+void F(vector<vector<double>> const& vars, vector<vector<double>> const& diffs)
 {
-    vector<ForwardDiff<double>> fd_vars = create_fd_vars(vars, diffs);
-
-    return exp(fd_vars[0] * fd_vars[1]) + fd_vars[0];
+    vector<ForwardDiff<double>> fd_vars;
+    for (auto i = 0; i < vars.size(); i++)
+    {
+        fd_vars = create_fd_vars(vars[i], diffs[i]);
+        cout << exp(fd_vars[0] * fd_vars[1]) + fd_vars[0] << endl;
+    }
+     
 }
 int main()
 {
-
+    /*
     ForwardDiff<double> a(2.0, 1);
     ForwardDiff<double> b(5.0, 1);
 
@@ -32,12 +36,13 @@ int main()
 
     ForwardDiff<double> e(2, 1);
     cout << exp(sin(e) + cos(c) / log(c)) << endl;
-
-    vector<double> vars = {1.0, 3.0};
-    vector<double> diffs1 = {1.0, 0.0};
-    vector<double> diffs2 = {0.0, 1.0};
-    cout << F(vars, diffs1) << endl;
-    cout << F(vars, diffs2) << endl;
+    */
+    vector<vector<double>> vars = {{1.0, 3.0},
+                                   {-7.0, 14.6}};
+    vector<vector<double>> diffs = {{1.0, 0.0},
+                                     {0.0, 1.0}};
+    F(vars, diffs);
+ 
 
 
 }
